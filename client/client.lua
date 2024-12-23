@@ -1,18 +1,18 @@
 local sitting = false
 
 -- QB Target
-if config.qb_target then
-	exports['qb-target']:AddTargetModel(config.chairs, {
+if Config.qb_target then
+	exports['qb-target']:AddTargetModel(Config.chairs, {
 		options = {
 			{
 				-- Sit
-				label = config.targetName, icon = config.targetIcon,
+				label = Config.targetName, icon = Config.targetIcon,
 				canInteract = function() if not sitting then return true else return false end end,
 	        	action = function(entity) return sit(entity) end
 			},
 			{
 				-- Stand up
-				label = config.targetNameStandUp, icon = config.targetIcon,
+				label = Config.targetNameStandUp, icon = Config.targetIcon,
 				canInteract = function() if sitting then return true else return false end end,
 	        	action = function(entity) return ExecuteCommand('neveradev:sit:stand_up') end
 			}
@@ -22,12 +22,12 @@ if config.qb_target then
 end
 
 -- OX Target
-if config.ox_target then
+if Config.ox_target then
 	local options =
 	{
 	    {
 	    	-- Sit
-	        label = config.targetName, name = "nvsit", icon = config.targetIcon, iconColor = "orange", distance = 1.5,
+	        label = Config.targetName, name = "nvsit", icon = Config.targetIcon, iconColor = "orange", distance = 1.5,
 	        canInteract = function() if not sitting then return true else return false end end,
 	        onSelect = function(data)
 	        	return sit(data.entity, data.coords)
@@ -35,12 +35,12 @@ if config.ox_target then
 	    },
 	    {
 	    	-- Stand Up
-	        label = config.targetNameStandUp, name = "nvstandup", icon = config.targetIcon, iconColor = "orange", distance = 1.5,
+	        label = Config.targetNameStandUp, name = "nvstandup", icon = Config.targetIcon, iconColor = "orange", distance = 1.5,
 	        canInteract = function() if sitting then return true else return false end end,
 	        onSelect = function(data) return ExecuteCommand('neveradev:sit:stand_up') end
 	    }
 	}
-	exports.ox_target:addModel(config.chairs, options)
+	exports.ox_target:addModel(Config.chairs, options)
 end
 
 function sit(entity,newCoords)
@@ -64,7 +64,7 @@ function sit(entity,newCoords)
 	else
     	TaskStartScenarioAtPosition(playerPed, "PROP_HUMAN_SEAT_BENCH", entityCoords.x, entityCoords.y, playerCoords.z-0.5, heading, 0, true, true)
     end
-    if config.forceFPVonSit then
+    if Config.forceFPVonSit then
     	Wait(1000)
     	SetFollowPedCamViewMode(4)
     end
